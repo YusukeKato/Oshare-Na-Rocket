@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212461168019468470}
   - component: {fileID: 114306179715937720}
   - component: {fileID: 54016204896338648}
+  - component: {fileID: 65782046616033448}
   m_Layer: 0
   m_Name: PlayerBullet
   m_TagString: Untagged
@@ -57,6 +58,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65782046616033448
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403837010207270}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 6, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114306179715937720
 MonoBehaviour:
   m_ObjectHideFlags: 1
