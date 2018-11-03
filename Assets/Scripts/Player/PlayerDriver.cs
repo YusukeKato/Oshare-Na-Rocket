@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerDriver : MonoBehaviour {
 
     Rigidbody playerRigidbody;
-    float playerSpeed = 1.0f;
+    public float playerSpeed = 1.0f;
 
     // mouse
     Vector3 mousePositionFirst = new Vector3(0, 0, 0);
@@ -13,12 +13,11 @@ public class PlayerDriver : MonoBehaviour {
     // touch
     Vector2 touchPositionFrist = new Vector2(0, 0);
 
-    // 移動制限
+    // スクリーンの大きさ
     Vector3 min;
     Vector3 max;
 
 	void Start () {
-        Debug.Log("!!START!!");
         playerRigidbody = GetComponent<Rigidbody>();
         // スクリーンの大きさを取得
         min = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 10f));
