@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class PlayerDriver : MonoBehaviour {
 
-    Vector3 PlayerPosition = new Vector3(0, 0, 0);
-    Rigidbody PlayerRigidbody;
-    float PlayerSpeed = 1.0f;
+    Vector3 playerPosition = new Vector3(0, 0, 0);
+    Rigidbody playerRigidbody;
+    float playerSpeed = 1.0f;
+    public Vector3 playerDirection = new Vector3(0, 0, 0);
 
     // mouse
-    Vector3 MousePositionFirst = new Vector3(0, 0, 0);
+    Vector3 mousePositionFirst = new Vector3(0, 0, 0);
 
     // touch
-    Vector2 TouchPositionFrist = new Vector2(0, 0);
+    Vector2 touchPositionFrist = new Vector2(0, 0);
 
 	void Start () {
         Debug.Log("!!START!!");
-        PlayerRigidbody = GetComponent<Rigidbody>();
+        playerRigidbody = GetComponent<Rigidbody>();
 	}
 	
 	void Update () {
@@ -40,15 +41,15 @@ public class PlayerDriver : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0)) // クリック時
         {
-            MousePositionFirst = Input.mousePosition;
+            mousePositionFirst = Input.mousePosition;
         }
         else if (Input.GetMouseButton(0)) // クリック中
         {
-            PlayerMove(MousePositionFirst, Input.mousePosition);
+            PlayerMove(mousePositionFirst, Input.mousePosition);
         }
         if (Input.GetMouseButtonUp(0)) // 離した時
         {
-            PlayerRigidbody.velocity = new Vector3(0, 0, 0);
+            playerRigidbody.velocity = new Vector3(0, 0, 0);
         }
     }
 
@@ -61,15 +62,15 @@ public class PlayerDriver : MonoBehaviour {
 
             if (touch.phase == TouchPhase.Began) // タッチ時
             {
-                TouchPositionFrist = touch.position;
+                touchPositionFrist = touch.position;
             }
             else if (touch.phase == TouchPhase.Moved) // タッチ中
             {
-                PlayerMove(TouchPositionFrist, touch.position);
+                PlayerMove(touchPositionFrist, touch.position);
             }
             if (touch.phase == TouchPhase.Ended) // 離した時
             {
-                PlayerRigidbody.velocity = new Vector3(0, 0, 0);
+                playerRigidbody.velocity = new Vector3(0, 0, 0);
             }
         }
     }
@@ -77,11 +78,11 @@ public class PlayerDriver : MonoBehaviour {
     // スライドさせる方向に移動
     void PlayerMove (Vector3 v1, Vector3 v2)
     {
-        Vector3 direction = (v2 - v1).normalized;
-        PlayerRigidbody.velocity = direction * PlayerSpeed;
+        playerDirection = (v2 - v1).normalized;
+        playerRigidbody.velocity = playerDirection * playerSpeed;
         // 進行方向に向かせる(2Dであることに気をつける)
-        float angle = GetAngle(direction);
-        transform.eulerAngles = new Vector3(0, 0, angle);
+        float angle = GetAngle(playerDirection);
+        transform.eulerAngles = new Vector3(0, 0, angle - 90f);
     }
 
     float GetAngle(Vector3 v)
