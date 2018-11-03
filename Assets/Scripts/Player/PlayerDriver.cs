@@ -7,6 +7,8 @@ public class PlayerDriver : MonoBehaviour {
     Rigidbody playerRigidbody;
     public float playerSpeed = 1.0f;
 
+    public GameObject playerParticleSystem;
+
     // mouse
     Vector3 mousePositionFirst = new Vector3(0, 0, 0);
 
@@ -100,5 +102,21 @@ public class PlayerDriver : MonoBehaviour {
     {
         float rad = Mathf.Atan2(v.y, v.x);
         return rad * Mathf.Rad2Deg;
+    }
+
+    // 衝突時のイベント
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag != "EnemyBullet") return;
+        Debug.Log(col.gameObject.tag);
+        Debug.Log(gameObject.name);
+
+        // Particle System を起動
+        GameObject pps = Instantiate(playerParticleSystem, transform.position, transform.rotation);
+        Destroy(pps, 2f);
+        // 弾を削除
+        Destroy(col.gameObject);
+        // Enemyオブジェクトを削除
+        Destroy(gameObject);
     }
 }

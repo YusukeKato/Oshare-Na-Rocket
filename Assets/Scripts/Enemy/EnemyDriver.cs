@@ -7,6 +7,8 @@ public class EnemyDriver : MonoBehaviour {
     public float enemySpeed = 1.0f;
     Rigidbody enemyRigidbody;
 
+    public GameObject enemyParticleSystem;
+
     // スクリーンの大きさ
     Vector3 min;
     Vector3 max;
@@ -88,5 +90,21 @@ public class EnemyDriver : MonoBehaviour {
         else if(flag == 3 || flag == 4) enemyDirection.y = -enemyDirection.y;
         // 速度を更新
         enemyRigidbody.velocity = enemyDirection * enemySpeed;
+    }
+
+    // 衝突時のイベント
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag != "PlayerBullet") return;
+        Debug.Log(col.gameObject.tag);
+        Debug.Log(gameObject.name);
+
+        // Particle System を起動
+        GameObject eps = Instantiate(enemyParticleSystem, transform.position, transform.rotation);
+        Destroy(eps, 2f);
+        // 弾を削除
+        Destroy(col.gameObject);
+        // Enemyオブジェクトを削除
+        Destroy(gameObject);
     }
 }

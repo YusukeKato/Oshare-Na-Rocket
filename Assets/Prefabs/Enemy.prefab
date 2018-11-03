@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 135530780067709852}
   - component: {fileID: 114042327523406154}
   - component: {fileID: 114057897440133782}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -71,6 +71,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpeed: 1
+  enemyParticleSystem: {fileID: 1785310278110712, guid: 739e94381eafb65409b519e16f128846,
+    type: 2}
 --- !u!114 &114057897440133782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -92,7 +94,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1636868906844924}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 4

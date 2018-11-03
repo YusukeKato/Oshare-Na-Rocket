@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour {
+public class DestroyShotBullet : MonoBehaviour {
 
-    public float bulletSpeed = 4f;
-
+	// Use this for initialization
 	void Start () {
-        GetComponent<Rigidbody>().velocity = transform.up.normalized * bulletSpeed;
         Destroy(gameObject, 10f);
 	}
 	

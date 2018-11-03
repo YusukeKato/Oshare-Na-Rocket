@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour {
     void Start () {
         for(int i = 0; i < 10; i++)
         {
-            Instantiate(enemy);
+            Instantiate(enemy, new Vector3(10f, 10f, 0f), Quaternion.identity);
         }
     }
 	
