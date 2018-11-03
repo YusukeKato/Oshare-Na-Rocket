@@ -11,9 +11,9 @@ public class PlayerBullet : MonoBehaviour {
     {
         while(isShoot)
         {
-            // 弾をプレイヤーと同じ位置/角度で作成
+            // 弾をプレイヤーと同じ姿勢でインスタンス化
             Instantiate(playerBullet, transform.position, transform.rotation);
-            // 0.05秒待つ
+            // 0.3待つ
             yield return new WaitForSeconds(0.3f);
         }
     }

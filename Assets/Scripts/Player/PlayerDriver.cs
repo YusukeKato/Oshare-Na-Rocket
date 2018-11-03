@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class PlayerDriver : MonoBehaviour {
 
-    Vector3 playerPosition = new Vector3(0, 0, 0);
     Rigidbody playerRigidbody;
     float playerSpeed = 1.0f;
-    public Vector3 playerDirection = new Vector3(0, 0, 0);
 
     // mouse
     Vector3 mousePositionFirst = new Vector3(0, 0, 0);
@@ -15,10 +13,17 @@ public class PlayerDriver : MonoBehaviour {
     // touch
     Vector2 touchPositionFrist = new Vector2(0, 0);
 
+    // 移動制限
+    Vector3 min;
+    Vector3 max;
+
 	void Start () {
         Debug.Log("!!START!!");
         playerRigidbody = GetComponent<Rigidbody>();
-	}
+        // スクリーンの大きさを取得
+        min = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 10f));
+        max = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10f));
+    }
 	
 	void Update () {
         PlayerDrive();
@@ -75,14 +80,21 @@ public class PlayerDriver : MonoBehaviour {
         }
     }
 
-    // スライドさせる方向に移動
     void PlayerMove (Vector3 v1, Vector3 v2)
     {
-        playerDirection = (v2 - v1).normalized;
-        playerRigidbody.velocity = playerDirection * playerSpeed;
+        // 指をスライドさせた方向に移動
+        Vector3 direction = (v2 - v1).normalized;
+        playerRigidbody.velocity = direction * playerSpeed;
         // 進行方向に向かせる(2Dであることに気をつける)
-        float angle = GetAngle(playerDirection);
+        float angle = GetAngle(direction);
         transform.eulerAngles = new Vector3(0, 0, angle - 90f);
+        // 移動制限を設ける
+        Vector3 playerPosition = transform.position;
+        float margin_x = max.x / 20f;
+        float margin_y = max.y / 20f;
+        playerPosition.x = Mathf.Clamp(playerPosition.x, min.x + margin_x, max.x - margin_x);
+        playerPosition.y = Mathf.Clamp(playerPosition.y, min.y + margin_y, max.y - margin_y);
+        transform.position = playerPosition;
     }
 
     float GetAngle(Vector3 v)
