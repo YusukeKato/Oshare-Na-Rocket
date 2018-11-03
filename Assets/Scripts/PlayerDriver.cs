@@ -74,10 +74,19 @@ public class PlayerDriver : MonoBehaviour {
         }
     }
 
-    // スライドさせる方向とは逆に移動
+    // スライドさせる方向に移動
     void PlayerMove (Vector3 v1, Vector3 v2)
     {
         Vector3 direction = (v2 - v1).normalized;
-        PlayerRigidbody.velocity = -direction * PlayerSpeed;
+        PlayerRigidbody.velocity = direction * PlayerSpeed;
+        // 進行方向に向かせる(2Dであることに気をつける)
+        float angle = GetAngle(direction);
+        transform.eulerAngles = new Vector3(0, 0, angle);
+    }
+
+    float GetAngle(Vector3 v)
+    {
+        float rad = Mathf.Atan2(v.y, v.x);
+        return rad * Mathf.Rad2Deg;
     }
 }
