@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
 
-    public float bulletSpeed = 8f;
+    public float bulletSpeed = 4f;
 
 	void Start () {
         GetComponent<Rigidbody>().velocity = transform.up.normalized * bulletSpeed;

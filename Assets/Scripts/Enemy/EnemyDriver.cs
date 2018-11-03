@@ -36,7 +36,26 @@ public class EnemyDriver : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (transform.position.x < min.x)
+        WallCollision();
+        EnemyLookAt();
+    }
+
+    void EnemyLookAt()
+    {
+        // 進行方向に向かせる(2Dであることに気をつける)
+        float angle = GetAngle(enemyDirection);
+        transform.eulerAngles = new Vector3(0, 0, angle - 90f);
+    }
+
+    float GetAngle(Vector3 v)
+    {
+        float rad = Mathf.Atan2(v.y, v.x);
+        return rad * Mathf.Rad2Deg;
+    }
+
+    void WallCollision()
+    {
+        if (transform.position.x < min.x)
         {
             Rebound(1);
         }
