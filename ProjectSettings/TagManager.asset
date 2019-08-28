@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - PlayerBullet
   - EnemyBullet
+  - Goal
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -21,6 +23,8 @@ TagManager:
   - Enemy
   - Bullet(Player)
   - Bullet(Enemy)
+  - Goal
+  - Item
   - 
   - 
   - 
@@ -37,9 +41,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - NULL
   m_SortingLayers:
   - name: Default
     uniqueID: 0

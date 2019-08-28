@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 135530780067709852}
   - component: {fileID: 114042327523406154}
   - component: {fileID: 114057897440133782}
+  - component: {fileID: 114883583791420720}
   m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemy
@@ -70,7 +71,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0423927471b2a499b80e711a5eb85a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHP: 1
   enemySpeed: 1
+  enemySize: 1
+  enemyPoint: 1
+  StageManager: {fileID: 0}
   enemyParticleSystem: {fileID: 1785310278110712, guid: 739e94381eafb65409b519e16f128846,
     type: 2}
 --- !u!114 &114057897440133782
@@ -84,9 +89,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8cd75b659e2fd74d8a10280f7b1e00e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isShoot: 1
+  waitTime: 0.5
+  bulletSpeed: 1
+  shotAngle: 0
   shotBullet: {fileID: 1618366500868888, guid: 668ac3268c1259541ae7282d3741e60c, type: 2}
   bullet: {fileID: 1777000578283526, guid: 79b4634816fe90042923c60a4777b104, type: 2}
+--- !u!114 &114883583791420720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636868906844924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb7c8cb216522c44850497257032bda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 1
 --- !u!135 &135530780067709852
 SphereCollider:
   m_ObjectHideFlags: 1

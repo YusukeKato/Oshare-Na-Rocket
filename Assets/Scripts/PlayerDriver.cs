@@ -5,25 +5,20 @@ using UnityEngine;
 public class PlayerDriver : MonoBehaviour {
 
     Rigidbody playerRigidbody;
-    public float playerSpeed = 1.0f;
+    GameObject stageManager;
 
     public GameObject playerParticleSystem;
 
     // mouse
-    Vector3 mousePositionFirst = new Vector3(0, 0, 0);
+    Vector3 mousePositionFirst = Vector3.zero;
 
     // touch
-    Vector2 touchPositionFrist = new Vector2(0, 0);
-
-    // スクリーンの大きさ
-    Vector3 min;
-    Vector3 max;
+    Vector2 touchPositionFrist = Vector2.zero;
 
 	void Start () {
         playerRigidbody = GetComponent<Rigidbody>();
-        // スクリーンの大きさを取得
-        min = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 10f));
-        max = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10f));
+        stageManager = GameObject.Find("StageManager");
+        stageManager.GetComponent<DataManager>().DataLoadFunc();
     }
 	
 	void Update () {
@@ -55,7 +50,7 @@ public class PlayerDriver : MonoBehaviour {
         }
         if (Input.GetMouseButtonUp(0)) // 離した時
         {
-            playerRigidbody.velocity = new Vector3(0, 0, 0);
+            playerRigidbody.velocity = Vector3.zero;
         }
     }
 
@@ -85,17 +80,14 @@ public class PlayerDriver : MonoBehaviour {
     {
         // 指をスライドさせた方向に移動
         Vector3 direction = (v2 - v1).normalized;
-        playerRigidbody.velocity = direction * playerSpeed;
+        playerRigidbody.velocity = direction * stageManager.GetComponent<DataManager>().playerSpeed;
+
         // 進行方向に向かせる(2Dであることに気をつける)
         float angle = GetAngle(direction);
         transform.eulerAngles = new Vector3(0, 0, angle - 90f);
+
         // 移動制限を設ける
-        Vector3 playerPosition = transform.position;
-        float margin_x = max.x / 20f;
-        float margin_y = max.y / 20f;
-        playerPosition.x = Mathf.Clamp(playerPosition.x, min.x + margin_x, max.x - margin_x);
-        playerPosition.y = Mathf.Clamp(playerPosition.y, min.y + margin_y, max.y - margin_y);
-        transform.position = playerPosition;
+        transform.position = MoveLimit(transform.position);
     }
 
     float GetAngle(Vector3 v)
@@ -104,19 +96,38 @@ public class PlayerDriver : MonoBehaviour {
         return rad * Mathf.Rad2Deg;
     }
 
+    Vector3 MoveLimit(Vector3 v)
+    {
+        float margin_x = stageManager.GetComponent<DataManager>().screenMax.x / 20f;
+        float margin_y = stageManager.GetComponent<DataManager>().screenMax.y / 20f;
+        v.x = Mathf.Clamp(v.x, stageManager.GetComponent<DataManager>().screenMin.x + margin_x, stageManager.GetComponent<DataManager>().screenMax.x - margin_x);
+        v.y = Mathf.Clamp(v.y, stageManager.GetComponent<DataManager>().screenMin.y + margin_y, stageManager.GetComponent<DataManager>().screenMax.y - margin_y);
+        return v;
+    }
+
     // 衝突時のイベント
     void OnCollisionEnter(Collision col)
     {
+        // enemyの弾以外なら無効
         if (col.gameObject.tag != "EnemyBullet") return;
-        Debug.Log(col.gameObject.tag);
-        Debug.Log(gameObject.name);
 
-        // Particle System を起動
-        GameObject pps = Instantiate(playerParticleSystem, transform.position, transform.rotation);
-        Destroy(pps, 2f);
         // 弾を削除
         Destroy(col.gameObject);
-        // Enemyオブジェクトを削除
-        Destroy(gameObject);
+
+        // playerのHPを1減少
+        stageManager.GetComponent<DataManager>().playerHP -= 1;
+
+        if (stageManager.GetComponent<DataManager>().playerHP <= 0)
+        {
+            // Particle System を起動
+            GameObject pps = Instantiate(playerParticleSystem, transform.position, transform.rotation);
+            Destroy(pps, 2f);
+
+            // Playerオブジェクトを削除
+            Destroy(gameObject);
+
+            // PlayerのGameOverフラグを立てる
+            stageManager.GetComponent<StageManager>().isPlayerDead = true;
+        }
     }
 }
